@@ -317,6 +317,19 @@ class Follow(classmethod):
 
         self.assertNotIn(post_unfollowed, response.context.get["page_obj"])
 
+    def follow_on_me(self):
+        """
+        Подписка на самого себя.
+        """
+        Follow.objects.create(
+            author=self.author,
+            user=self.author,
+        )
+        count_follow = Follow.objects.filter(
+            author=self.author, user=self.author
+        ).count()
+        self.assertEqual(count_follow, 0, "Нельзя подписываться на себя")
+
     class PaginatorViewTest(TestCase):
         """
         Тест паджинатора.
