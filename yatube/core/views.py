@@ -22,7 +22,7 @@ def server_error(request):
     return render(request, "core/500.html", status=500)
 
 
-def page_403_error(request):
+def page_error(request, exception):
     """
     ошибка 403.
     """
