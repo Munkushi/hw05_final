@@ -12,4 +12,11 @@ def csrf_failure(request, reason=''):
     """
     ошибка проверки CSRF, запрос отклонён
     """
-    return render(request, 'core/403csrf.html')
+    return render(request, 'core/403.html', status=403)
+
+
+def server_error(request):
+    """
+    Серверная ошибка.
+    """
+    return render(request, "core/500.html", status=500)

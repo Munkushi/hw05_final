@@ -60,7 +60,7 @@ class Comment(CreatedModel):
     Модель для комментариев.
     """
 
-    text = models.CharField("Текст комментария", max_length=200)
+    text = models.TextField("Текст комментария", max_length=200)
     author = models.ForeignKey(
         User,
         related_name="comments",
