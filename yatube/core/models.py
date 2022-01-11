@@ -6,10 +6,7 @@ class CreatedModel(models.Model):
     Абстрактная модель.
     """
 
-    created = models.DateTimeField(
-        "Дата создания",
-        auto_now_add=True
-    )
+    created = models.DateTimeField("Дата создания", auto_now_add=True)
 
     class Meta:
         abstract = True
