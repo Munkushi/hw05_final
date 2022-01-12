@@ -15,7 +15,7 @@ def index(request):
     """
     Главная страница.
     """
-    posts = Post.objects.all()
+    posts = Post.objects.select_related("author", "group").all()
     paginator = Paginator(posts, settings.PAGINATOR_NUM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -48,7 +48,7 @@ def profile(request, username):
     post_user_list = Post.objects.select_related("author", "group").all()
     number_of_posts = post_user_list.count()
     author = get_object_or_404(User, username=username)
-    post = author.posts.all()
+    post = Post.objects.select_related("author").all()
     paginator = Paginator(post, settings.PAGINATOR_NUM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -184,5 +184,6 @@ def profile_unfollow(request, username):
     """
 
     author = get_object_or_404(User, username=username)
-    Follow.objects.filter(author=author, user=request.user).delete()
+    follow_obj = get_object_or_404(Follow, author=author, user=request.user)
+    follow_obj.delete()
     return redirect("posts:profile", request.user)

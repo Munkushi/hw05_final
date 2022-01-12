@@ -2,9 +2,18 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.db import models
 
-from core.models import CreatedModel
-
 User = get_user_model()
+
+
+class CreatedModel(models.Model):
+    """
+    Абстрактная модель.
+    """
+
+    created = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    class Meta:
+        abstract = True
 
 
 class Group(models.Model):
@@ -70,7 +79,7 @@ class Comment(CreatedModel):
         Post,
         related_name="comments",
         verbose_name="Пост",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
     )
@@ -81,7 +90,7 @@ class Comment(CreatedModel):
         ordering = ("-created",)
 
     def __str__(self):
-        return f"Комментарий {self.author}"
+        return f"Комментарий {self.author.username}"
 
 
 class Follow(models.Model):

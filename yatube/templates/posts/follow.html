@@ -1,6 +1,6 @@
 {%  extends "base.html" %}
-{%  load cache %}
-{%  load thumbnail %}
+{% load cache %}
+{% load thumbnail %}
 {% block content %}
   <div class="container py-5">
   <h1>Ваши подписки</h1>
@@ -21,14 +21,13 @@
         <p>
           {{ post.text|linebreaks }}
         </p>
-        {% if post.group is not None %}
+        {% if post.group %}
           <a href="{% url 'posts:group_posts' post.group.slug %}">Все посты группы</a>
         {% endif %}
         {% if not forloop.last %}<hr>{% endif %}
       </article>
       {% endfor %}
       {% endcache %}
-
       {% include 'includes/paginator.html' %}
   </div>
 {% endblock %}

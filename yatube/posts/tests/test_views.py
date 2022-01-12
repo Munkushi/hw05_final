@@ -271,18 +271,23 @@ class Follow(classmethod):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
-    def test_follow_unfollow(self):
+    def test_follow(self):
         """
-        Тест подписки/отписки.
+        Тест подписки.
         """
 
         count_follow = Follow.objects.filter(
             author=self.user2, user=self.user
         ).count()
+        self.assertEqual(count_follow, 1)
+
+    def test_unfollow(self):
+        """
+        Тест оптиски.
+        """
         count_unfollow = Follow.objects.filter(
             author=self.user, user=self.user2
         ).count()
-        self.assertEqual(count_follow, 1)
         self.assertEqual(count_unfollow, 0)
 
     def test_followed_author_can_see_post(self):

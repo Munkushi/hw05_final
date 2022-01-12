@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.test import Client, TestCase
 
 from posts.models import Group, Post
@@ -25,9 +26,10 @@ class PostsURLTests(TestCase):
         )
 
     def setUp(self):
-        self.user = User.objects.create_user(username="HasNoName")
+        self.author = User.objects.create_user(username="Alex")
+        cache.clear()
         self.authorized_client = Client()
-        self.authorized_client.force_login(self.user)
+        self.authorized_client.force_login(self.author)
 
     def test_urls_uses_correct_template(self):
         """
@@ -47,23 +49,51 @@ class PostsURLTests(TestCase):
 
     def url_for_edit_200(self):
         """
-        Url имеет правильный шаблон
+        Url имеет правильный шаблон.
         """
         response = self.authorized_client_author.get(
-            f'/posts/{self.post.id}/edit/'
+            f"/posts/{self.post.id}/edit/"
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def urls_for_create_200(self):
         """
-        Url имеет правильный шаблон
+        Url имеет правильный шаблон.
         """
         response = self.authorized_client_author.get('/create/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_unexisting_page(self):
         """
-        Неизвестная страница вернет 404.
+        Url имеет правильный шаблон.
         """
         response = self.client.get("/posts/nettakoystranizi/")
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_follow_url(self):
+        """
+        Url имеет правильный шаблон.
+        """
+
+        response = self.authorized_client.get("/follow/")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_follow_author(self):
+        """
+        Url имеет правильный шаблон.
+        """
+
+        response = self.authorized_client.get(
+            f"/profile/{self.author.username}/follow/"
+        )
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    # def test_unfollow_author(self):
+    #     """
+    #     Url имеет правильный шаблон.
+    #     """
+
+    #     response = self.authorized_client.get(
+    #         f"/profile/{self.user.username}/unfollow/"
+    #     )
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
