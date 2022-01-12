@@ -48,7 +48,7 @@ def profile(request, username):
     post_user_list = Post.objects.select_related("author", "group").all()
     number_of_posts = post_user_list.count()
     author = get_object_or_404(User, username=username)
-    post = Post.objects.filter("author").all()
+    post = author.posts.all()
     paginator = Paginator(post, settings.PAGINATOR_NUM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
