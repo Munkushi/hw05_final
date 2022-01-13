@@ -38,8 +38,8 @@ class Post(models.Model):
     Модель для поста.
     """
 
-    text = models.TextField('Текст поста')
-    pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
+    text = models.TextField("Текст поста")
+    pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -50,7 +50,7 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Группа',
+        verbose_name="Группа",
         related_name="posts",
     )
     image = models.ImageField("Картинка", upload_to="posts/", blank=True)
