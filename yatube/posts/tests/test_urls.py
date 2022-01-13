@@ -81,27 +81,3 @@ class PostsURLTests(TestCase):
 
         response = self.authorized_client.get("/follow/")
         self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_follow_author(self):
-        """
-        Url имеет правильный шаблон.
-        """
-        Follow.objects.create(
-            author=self.author,
-            user=self.user2,
-        )
-
-        response = self.authorized_client.get(f"/profile/{self.user2}/follow/")
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-
-    def test_unfollow_author(self):
-        """
-        Url имеет правильный шаблон.
-        """
-        Follow.objects.filter(author=self.author, user=self.user2)
-
-        response = self.authorized_client.get(
-            f"/profile/{self.user2}/unfollow/"
-        )
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-        # исправлю, пока не получается придумать
