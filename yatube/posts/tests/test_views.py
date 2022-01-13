@@ -245,7 +245,7 @@ class Follow(classmethod):
     @classmethod
     def setUpClass(cls) -> None:
         cls.user = User.objects.create_user(username="auth")
-        cls.author = User.objects.create_user(username="Kate")
+        cls.user2 = User.objects.create_user(username="Kate")
         cls.group = Group.objects.create(
             title="Тестовая группа",
             slug="test-slug",

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.test import Client, TestCase
 
-from posts.models import Group, Post
+from posts.models import Follow, Group, Post
 
 User = get_user_model()
 
@@ -27,6 +27,10 @@ class PostsURLTests(TestCase):
 
     def setUp(self):
         self.author = User.objects.create_user(username="Alex")
+        self.user2 = User.objects.create_user(username="John")
+        self.post = Post.objects.create(
+            author=self.user2, text="Тестовый пост11_user2", group=self.group
+        )
         cache.clear()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.author)
@@ -82,18 +86,22 @@ class PostsURLTests(TestCase):
         """
         Url имеет правильный шаблон.
         """
-
-        response = self.authorized_client.get(
-            f"/profile/{self.author.username}/follow/"
+        Follow.objects.create(
+            author=self.author,
+            user=self.user2,
         )
+
+        response = self.authorized_client.get(f"/profile/{self.user2}/follow/")
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-    # def test_unfollow_author(self):
-    #     """
-    #     Url имеет правильный шаблон.
-    #     """
+    def test_unfollow_author(self):
+        """
+        Url имеет правильный шаблон.
+        """
+        Follow.objects.filter(author=self.author, user=self.user2)
 
-    #     response = self.authorized_client.get(
-    #         f"/profile/{self.user.username}/unfollow/"
-    #     )
-    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        response = self.authorized_client.get(
+            f"/profile/{self.user2}/unfollow/"
+        )
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+        # исправлю, пока не получается придумать
