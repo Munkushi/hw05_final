@@ -23,9 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_5q^)&kr#fhgzzvz&postibda(#nh6_w+*^jz#73o14q&uu2y3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'testserver', 'localhost']
+ALLOWED_HOSTS = [
+    'www.munkushi1dev.pythonanywhere.com',
+    'munkushi1dev.pythonanywhere.com',
+    # '127.0.0.1',
+    # 'testserver',
+    # 'localhost',
+]
+# ALLOWED_HOSTS = ['127.0.0.1', 'testserver', 'localhost']
 
 
 # Application definition
