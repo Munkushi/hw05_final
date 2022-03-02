@@ -1,3 +1,13 @@
-# hw05_final
+***Yatube - социальная сеть для начинающий блогеров!*** 
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+***Как запустить проект:***
+1 Установите виртульное окружение:
+  python3 -m venv venv - для mac/linux
+  python -m venv venv - для windows
+2 Активируйте его:
+  source venv/Scripts/activate
+3 Установите все зависимости(при включенном виртуальном окружении):
+  pip intall -r requirements
+4 Выполните миграции:
+  python manage.py migrate
+  
